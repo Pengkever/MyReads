@@ -1,51 +1,38 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import NavLink from './NavLink'
 
 import Book from './Book'
+import { search } from './BooksAPI'
 
 class SearchBook extends Component {
 
     state = {
-        query: ''
+        books: []
     }
-
-    componentWillMount() {
-        this.setState((state) => (state.books = this.props.books))
-    }
-
+    /* 输入内容改变，从服务器搜索图书 */
     updateQuery = (query) => {
-        this.setState({ query: query.trim() })
+        query = query.trim()
+        query? this.searchBook(query) : this.setState({books: []})
     }
 
-    /*consoleValue(value) {
-        setTimeout(function() {
-            console.log(value)
-        }, 1000)
-    }*/    
-
-    handUpBook = (book) => {
-
-        if (this.props.handUpBook) {
-            this.props.handUpBook(book)
-        }
+    searchBook = (query) => {
+        search(query)
+        .then((books) => {
+            this.setState({books: books})
+        })
+        .catch((e) => {
+            this.setState({books: null})
+        })
     }
-
+    
     render() {
         
-        const { books } = this.props
-        const { query }= this.state
-
-        let showBooks
-        if (query) {
-            showBooks = books.filter((book) => book.title.includes(query))
-        } else {
-            showBooks = books
-        }
+        const { books } = this.state
 
         return (
             <div className="search-books">
                 <div className="search-books-bar">
-                    <Link className='close-search' to='/'>Close</Link>
+                    <NavLink className='close-search' to='/'>Close</NavLink>
                     <div className="search-books-input-wrapper">
                         {
                         /*
@@ -60,20 +47,23 @@ class SearchBook extends Component {
                         <input
                         type="text"
                         placeholder="Search by title or author"
-                        value={query}
                         onChange={(event) => this.updateQuery(event.target.value)}
                         />
 
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <ol className="books-grid">
-                        {showBooks.map((book) => (
-                            <li key={book.title}>
-                                <Book book={book} handUpBook={this.handUpBook}/>
-                            </li>
-                        ))}                        
-                    </ol>
+                    {books? (
+                        <ol className="books-grid">
+                            {books.map((book) => (
+                                <li key={book.id}>
+                                    <Book book={book}/>
+                                </li>
+                            ))}                        
+                        </ol>
+                    ) : (
+                        <div>there is no match book</div>
+                    )}
                 </div>
             </div>
         )

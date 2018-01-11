@@ -154,13 +154,16 @@ body, .app {
   background-size: 20px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-/* .book-shelf-changer select {
+.book-shelf-changer select, .book-shelf-changer>div {
   width: 100%;
   height: 100%;
-  opacity: 0;
   cursor: pointer;
-} */
+}
+.book-shelf-changer select {
+  opacity: 0;
+}
 /* select 改动，因为在windows 系统下，无法正常显示被选中书架前的 √ */
+
 .book-shelf-changer .select {
   position: absolute;
   padding-left: 0;
@@ -169,6 +172,7 @@ body, .app {
   background: #fff;
   font-size: 12px;
   border: 1px solid #cfcfcf;
+  z-index: 99;
 }
 .select ul {
   padding-left: 0;
@@ -177,6 +181,7 @@ body, .app {
   text-align: justify;
 }
 .select>div {
+  width: 130px;
   padding: 5px 5px 0 5px;
   color: #999;
 }
@@ -204,4 +209,58 @@ body, .app {
   padding: 20px 10px 0;
   text-align: center;
   font-size: 0.8em;
+}
+
+/* book detail */
+
+.book-detail-topbar {
+  background: #2e7c31;
+}
+.book-content {
+  position: relative;
+  display: flex;
+  padding: 0 50px 50px 50px;
+  border-bottom: 1px solid #ccc;
+}
+.book-content .book-shelf-changer {
+  position: absolute;
+  top: 172px;
+  left: 158px;
+}
+@media screen and (max-width: 400px) {
+  .book-detail .book-content {
+    display: block;
+    padding: 0;
+  }
+  .book-content .book-info {
+    margin: 50px 0;    
+  }
+  .book-content .book-shelf-changer {
+  position: absolute;
+  top: 172px;
+  left: 108px;
+  }
+}
+.book-content .book-cover {
+  flex-shrink: 0;
+}
+.book-info {
+  margin-left: 2em;
+}
+.book-info h2 {
+  margin: 0;
+}
+.book-description {
+  margin-top: 50px;
+}
+.book-subject {
+  padding: 50px;
+}
+.book-detail article {
+  text-indent: 2em;
+  text-align: justify;
+}
+.book-wait {
+  width: 100%;
+  text-align: center;
 }
