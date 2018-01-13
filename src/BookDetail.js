@@ -32,16 +32,12 @@ class BookDetail extends Component {
                 {book?(
                     <div className="book-subject">
                         <div className="book-content">
-                            <SelectShelf shelf={book.shelf} getShelf={this.getShelf} selectInfoState={book.selectInfoState} updateValue={this.updateValue}/>
+                            <SelectShelf shelf={book.shelf} getShelf={this.getShelf}/>
                             <div className="book-cover" 
-                                 style={!book.style? ({
-                                    width: 128,
-                                    height: 192,
-                                    backgroundImage: 'url("")'})
-                                    : ({
-                                        width: book.style.width || 128,
-                                        height: book.style.height || 192,
-                                        backgroundImage: `url(${book.imageLinks.thumbnail})` || 'url("")'})}>
+                             style={{
+                                width: 128,
+                                height: 192,
+                                backgroundImage: book.imageLinks? `url(${book.imageLinks.thumbnail})`: 'url("")' || 'url("")'}}>                                
                             </div>
                             <div className="book-info">
                                 <h2>{book.title}</h2>

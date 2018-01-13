@@ -7,7 +7,14 @@ import { search } from './BooksAPI'
 class SearchBook extends Component {
 
     state = {
-        books: []
+        books: [],
+        localBooks: []
+    }
+    componentWillMount() {
+        this.setState({localBooks: this.props.books})
+    }
+    ComponentWillReceiveProps(nextProps) {
+        this.setState({localBooks: nextProps.books})
     }
     /* 输入内容改变，从服务器搜索图书 */
     updateQuery = (query) => {
@@ -18,11 +25,26 @@ class SearchBook extends Component {
     searchBook = (query) => {
         search(query)
         .then((books) => {
+            books = this.format(books)
             this.setState({books: books})
         })
         .catch((e) => {
             this.setState({books: null})
         })
+    }
+    format = books => {
+        const len = books.length
+        if (this.state.localBooks) {
+            for (const book of this.state.localBooks) {
+                books = books.filter(b => b.title !== book.title)
+                // 如果筛选后的长度有所减少，说明有相同的，需要添加，否则，不添加
+                if (books.length < len) {
+                    books.push(book)
+                }                
+            }
+        }
+
+        return books
     }
     
     render() {

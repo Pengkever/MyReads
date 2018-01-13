@@ -154,17 +154,16 @@ body, .app {
   background-size: 20px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-.book-shelf-changer select, .book-shelf-changer>div {
+.book-shelf-changer select {
   width: 100%;
   height: 100%;
+  opacity: 0;
   cursor: pointer;
 }
-.book-shelf-changer select {
-  opacity: 0;
-}
+
 /* select 改动，因为在windows 系统下，无法正常显示被选中书架前的 √ */
 
-.book-shelf-changer .select {
+/* .book-shelf-changer .select {
   position: absolute;
   padding-left: 0;
   top: 40px;
@@ -197,7 +196,7 @@ body, .app {
 }
 .book-shelf-changer .select-item:hover {
   background: rgba(204,106,67,0.3);
-}
+} */
 
 /* book cover */
 

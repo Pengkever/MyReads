@@ -10,9 +10,12 @@ class Shelf extends Component {
         "wantToRead": [],
         "read": []
     }
-    /* 组件加载时，更新组件状态 */
     componentWillMount() {
-        this.getBooks()
+        this.updateState(this.props.books)
+    }
+    /* 属性更新时，更新组件状态 */
+    componentWillReceiveProps(nextProps) {
+        this.updateState(nextProps.books)
     }
     
     /* 上传更改过后的书籍数据 */
@@ -33,12 +36,6 @@ class Shelf extends Component {
         
         BooksAPI.update(book, book.shelf)
 
-    }
-
-    /* 获取图书 */
-    getBooks = () => {
-        BooksAPI.getAll()
-        .then((books) => {this.updateState(books)})
     }
 
     /* 分配图书至书架及更新状态 */
