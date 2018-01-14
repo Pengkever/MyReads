@@ -29,7 +29,7 @@ class BooksApp extends React.Component {
     handleChangeShelf = (book, shelf) => {
         BooksAPI.update(book, shelf)
 
-        // 同时处理来自SearchBook 和 Shelf的改动 
+        // 同时处理来自SearchBook\Shelf\BookDetail的改动 
         let result = this.state.localBooks.filter(b => b.id !== book.id)
         book.shelf = shelf
         result.push(book)
