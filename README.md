@@ -25,6 +25,12 @@
 * `src/BookDetail.js` 及 `src/Book.js` 中 `style` 修改，可正常显示图书封面
 * 修改：`src/App.js` 执行 `BooksAPI.getAll（）`获取服务器书籍信息，传递给`Shelf`和`SearchBook`组件
 
-#### 修改后引发的问题
-* 由于在`src/App.js`中从服务器获取信息，且执行一次，在`src/BookDetail.js`修改了图书书架信息后，回到`shelf`页面，无法触发刷新，导致图书显示的书架不正确
+~~#### 修改后引发的问题~~(已修正）
+* ~~由于在`src/App.js`中从服务器获取信息，且执行一次，在`src/BookDetail.js`修改了图书书架信息后，回到`shelf`页面，无法触发刷新，导致图书显示的书架不正确~~
+
+#### 2018-01-15 修改
+* `src/SelectShelf.js`已删除`option`处的监听函数`handleChange`
+* `src/SelectShelf.js`及`src/SearchBook.js`处使用`.title`筛选书籍改为`.id`筛选
+* `src/SearchBook.js`修改`checkBookOfShelf`中使用`filter`和`push`方法导致搜索书籍顺序变化，改为`map`筛选修改`shelf`方式
+* 所有组件中建立`handleChangeShelf`方法来处理或传递书籍书架信息变更，汇集到`App`组件，进行更新及上传至服务器，减少与请求次数
 
