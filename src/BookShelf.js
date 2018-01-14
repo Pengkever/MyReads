@@ -7,10 +7,9 @@ class BookShelf extends Component {
 
     /* 传递改动后的书籍信息 */  
 
-    handUpBook = (book) => {
-        
-        if (this.props.handUpBook) {
-            this.props.handUpBook(book)
+    handleChangeShelf = (book, shelf) => {        
+        if (this.props.handleChangeShelf) {
+            this.props.handleChangeShelf(book, shelf)
         }
     }
 
@@ -25,7 +24,7 @@ class BookShelf extends Component {
                     <ol className="books-grid">
                         {books.map((book) => (
                         <li key={book.title}>
-                            <Book book={book} handUpBook={this.handUpBook}/>
+                            <Book book={book} handleChangeShelf={this.handleChangeShelf}/>
                         </li>
                         ))}
                     </ol>

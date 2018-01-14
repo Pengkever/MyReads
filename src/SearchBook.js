@@ -25,26 +25,31 @@ class SearchBook extends Component {
     searchBook = (query) => {
         search(query)
         .then((books) => {
-            books = this.format(books)
+            books = this.checkBookofShelf(books)
             this.setState({books: books})
         })
         .catch((e) => {
             this.setState({books: null})
         })
     }
-    format = books => {
-        const len = books.length
+    checkBookofShelf = books => {
         if (this.state.localBooks) {
             for (const book of this.state.localBooks) {
-                books = books.filter(b => b.title !== book.title)
-                // 如果筛选后的长度有所减少，说明有相同的，需要添加，否则，不添加
-                if (books.length < len) {
-                    books.push(book)
-                }                
+                books = books.map(b => {
+                    if (b.id === book.id) {
+                        b.shelf = book.shelf
+                    }
+                    return b
+                })
             }
         }
 
         return books
+    }
+    handleChangeShelf = (book, shelf) => {
+        if (this.props.handleChangeShelf) {
+            this.props.handleChangeShelf(book, shelf)
+        }
     }
     
     render() {
@@ -79,7 +84,7 @@ class SearchBook extends Component {
                         <ol className="books-grid">
                             {books.map((book) => (
                                 <li key={book.id}>
-                                    <Book book={book}/>
+                                    <Book book={book} handleChangeShelf={this.handleChangeShelf}/>
                                 </li>
                             ))}                        
                         </ol>

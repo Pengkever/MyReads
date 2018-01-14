@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import * as BooksAPI from './BooksAPI'
 import NavLink from './NavLink'
 import SelectShelf from './SelectShelf'
 
@@ -11,21 +10,11 @@ class Book extends Component {
         })
     }    
     /* 书架发生变动时，更新状态并上传本书最新状态到服务器 */
-    handleChange = shelf => {
-        this.setState(state => {
-            state.book.shelf = shelf
-
-            this.handUpBook(state.book)
-
-            BooksAPI.update(state.book, shelf)
-        })
-    }
-    /* 传递状态给父组件 */
-    handUpBook = (book) => {
-        if (this.props.handUpBook) {
-            this.props.handUpBook(book)
-        }
-    }
+    handleChangeShelf = shelf => {
+        if (this.props.handleChangeShelf) {
+            this.props.handleChangeShelf(this.state.book, shelf)
+        }     
+    }    
     
     render() {
 
@@ -45,7 +34,7 @@ class Book extends Component {
                     </NavLink>}
                     <SelectShelf 
                         shelf={book.shelf} 
-                        getShelf={this.handleChange}
+                        handleChangeShelf={this.handleChangeShelf}
                     />                    
                 </div>
                 <div className="book-title">{book.title}</div>

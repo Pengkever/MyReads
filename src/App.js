@@ -25,6 +25,17 @@ class BooksApp extends React.Component {
         .then(books => this.setState({localBooks: books}))
         .catch(e => console.error(e.message))
     }
+
+    handleChangeShelf = (book, shelf) => {
+        BooksAPI.update(book, shelf)
+
+        // 同时处理来自SearchBook 和 Shelf的改动 
+        let result = this.state.localBooks.filter(b => b.id !== book.id)
+        book.shelf = shelf
+        result.push(book)
+
+        this.setState({localBooks: result})
+    }
     
     /* 路由注册 */
     render() {
@@ -34,12 +45,14 @@ class BooksApp extends React.Component {
         return (
             <div className="app">
                 <Route exact path='/' render={() => (
-                    <Shelf books={localBooks}/>
+                    <Shelf books={localBooks} handleChangeShelf={this.handleChangeShelf}/>
                 )}/>
                 <Route path='/search' render={() => (
-                    <SearchBook books={localBooks}/>
+                    <SearchBook books={localBooks} handleChangeShelf={this.handleChangeShelf}/>
                 )}/>
-                <Route exact path='/detail/:id' component={BookDetail}/>
+                <Route exact path='/detail/:id' render={(props) => (
+                    <BookDetail {...props} handleChangeShelf={this.handleChangeShelf}/>
+                )}/>
             </div>
         )
     }

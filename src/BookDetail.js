@@ -19,8 +19,10 @@ class BookDetail extends Component {
         }))
     }
     /* 书架信息更新后，上传服务器 */
-    getShelf = (shelf) => {
-        BooksAPI.update(this.state.book, shelf)
+    handleChangeShelf = (shelf) => {
+        if (this.props.handleChangeShelf) {
+            this.props.handleChangeShelf(this.state.book, shelf)
+        }
     }
 
     render() {
@@ -32,7 +34,7 @@ class BookDetail extends Component {
                 {book?(
                     <div className="book-subject">
                         <div className="book-content">
-                            <SelectShelf shelf={book.shelf} getShelf={this.getShelf}/>
+                            <SelectShelf shelf={book.shelf} handleChangeShelf={this.handleChangeShelf}/>
                             <div className="book-cover" 
                              style={{
                                 width: 128,
