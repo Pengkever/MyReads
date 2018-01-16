@@ -2,54 +2,27 @@ import React, { Component } from 'react'
 import NavLink from './NavLink'
 
 import Book from './Book'
-import { search } from './BooksAPI'
+// import { search } from '../BooksAPI'
+import BookStore from '../stores/BookStore'
 
 class SearchBook extends Component {
+    constructor(props) {
+        super(props)
 
-    state = {
-        books: [],
-        localBooks: []
-    }
-    componentWillMount() {
-        this.setState({localBooks: this.props.books})
-    }
-    ComponentWillReceiveProps(nextProps) {
-        this.setState({localBooks: nextProps.books})
-    }
-    /* 输入内容改变，从服务器搜索图书 */
-    updateQuery = (query) => {
-        query = query.trim()
-        query? this.searchBook(query) : this.setState({books: []})
-    }
+        this.onChange = this.onChange.bind(this)
 
+        this.state = {
+            books: null
+        }
+    }
     searchBook = (query) => {
-        search(query)
-        .then((books) => {
-            books = this.checkBookofShelf(books)
-            this.setState({books: books})
-        })
-        .catch((e) => {
-            this.setState({books: null})
-        })
+        query = query.trim()
+        BookStore.searchBook(query)
+        .then(books => this.setState({books: books}))
+        .catch(e => this.setState({books: null}))       
     }
-    checkBookofShelf = books => {
-        if (this.state.localBooks) {
-            for (const book of this.state.localBooks) {
-                books = books.map(b => {
-                    if (b.id === book.id) {
-                        b.shelf = book.shelf
-                    }
-                    return b
-                })
-            }
-        }
-
-        return books
-    }
-    handleChangeShelf = (book, shelf) => {
-        if (this.props.handleChangeShelf) {
-            this.props.handleChangeShelf(book, shelf)
-        }
+    onChange() {
+        console.log('onChange')
     }
     
     render() {
@@ -74,7 +47,7 @@ class SearchBook extends Component {
                         <input
                         type="text"
                         placeholder="Search by title or author"
-                        onChange={(event) => this.updateQuery(event.target.value)}
+                        onChange={(event) => this.searchBook(event.target.value)}
                         />
 
                     </div>
@@ -84,7 +57,7 @@ class SearchBook extends Component {
                         <ol className="books-grid">
                             {books.map((book) => (
                                 <li key={book.id}>
-                                    <Book book={book} handleChangeShelf={this.handleChangeShelf}/>
+                                    <Book id={book.id}/>
                                 </li>
                             ))}                        
                         </ol>

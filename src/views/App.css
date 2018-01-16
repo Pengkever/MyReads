@@ -54,7 +54,7 @@ body, .app {
   height: 50px;
   border-radius: 50%;
   background: #2e7d32;
-  background-image: url('./icons/add.svg');
+  background-image: url('../icons/add.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 28px;
@@ -92,7 +92,7 @@ body, .app {
   width: 50px;
   height: 53px;
   background: white;
-  background-image: url('./icons/arrow-back.svg');
+  background-image: url('../icons/arrow-back.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 28px;
@@ -148,22 +148,23 @@ body, .app {
   height: 40px;
   border-radius: 50%;
   background: #60ac5d;
-  background-image: url('./icons/arrow-drop-down.svg');
+  background-image: url('../icons/arrow-drop-down.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 20px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-.book-shelf-changer select {
+.book-shelf-changer select, .book-shelf-changer>div {
   width: 100%;
   height: 100%;
-  opacity: 0;
   cursor: pointer;
 }
-
+.book-shelf-changer select {
+  opacity: 0;
+}
 /* select 改动，因为在windows 系统下，无法正常显示被选中书架前的 √ */
 
-/* .book-shelf-changer .select {
+.book-shelf-changer .select {
   position: absolute;
   padding-left: 0;
   top: 40px;
@@ -196,7 +197,7 @@ body, .app {
 }
 .book-shelf-changer .select-item:hover {
   background: rgba(204,106,67,0.3);
-} */
+}
 
 /* book cover */
 

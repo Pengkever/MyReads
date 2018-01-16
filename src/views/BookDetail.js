@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from '../BooksAPI'
 import NavLink from './NavLink'
 import SelectShelf from './SelectShelf'
 
@@ -19,10 +19,8 @@ class BookDetail extends Component {
         }))
     }
     /* 书架信息更新后，上传服务器 */
-    handleChangeShelf = (shelf) => {
-        if (this.props.handleChangeShelf) {
-            this.props.handleChangeShelf(this.state.book, shelf)
-        }
+    getShelf = (shelf) => {
+        BooksAPI.update(this.state.book, shelf)
     }
 
     render() {
@@ -34,12 +32,16 @@ class BookDetail extends Component {
                 {book?(
                     <div className="book-subject">
                         <div className="book-content">
-                            <SelectShelf shelf={book.shelf} handleChangeShelf={this.handleChangeShelf}/>
+                            <SelectShelf shelf={book.shelf} getShelf={this.getShelf} selectInfoState={book.selectInfoState} updateValue={this.updateValue}/>
                             <div className="book-cover" 
-                             style={{
-                                width: 128,
-                                height: 192,
-                                backgroundImage: book.imageLinks? `url(${book.imageLinks.thumbnail})`: 'url("")' || 'url("")'}}>                                
+                                 style={!book.style? ({
+                                    width: 128,
+                                    height: 192,
+                                    backgroundImage: 'url("")'})
+                                    : ({
+                                        width: book.style.width || 128,
+                                        height: book.style.height || 192,
+                                        backgroundImage: `url(${book.imageLinks.thumbnail})` || 'url("")'})}>
                             </div>
                             <div className="book-info">
                                 <h2>{book.title}</h2>
