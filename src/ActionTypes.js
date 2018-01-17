@@ -1,5 +1,7 @@
 export const CHANGE_SHELF = 'changeShelf'
 
-export const ADD_BOOK = 'addBook'
+// export const SEARCH = 'search'
 
 export const DETAIL = 'detail'
+
+export const INIT = 'init'

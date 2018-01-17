@@ -36,9 +36,8 @@ class BookShelf extends Component {
 
     render() {
 
-        const {name, caption} = this.props
+        const { name } = this.props
         const { books } = this.state
-        console.log(caption)
 
         return (
             <div className="bookshelf">
@@ -46,8 +45,8 @@ class BookShelf extends Component {
                 <div className="bookshelf-books">
                     <ol className="books-grid">
                         {books? (books.map((book) => (
-                        <li key={book.title}>
-                            <Book id={book.id}/>
+                        <li key={book.id}>
+                            <Book book={book}/>
                         </li>
                         ))): ('')}
                     </ol>

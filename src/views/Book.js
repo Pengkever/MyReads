@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import SelectShelf from './SelectShelf'
 import NavLink from './NavLink'
-import BookStore from '../stores/BookStore'
-// import * as Actions from '../Actions'
-import PropTypes from 'prop-types'
+// import BookStore from '../stores/BookStore'
+import * as Actions from '../Actions'
+// import PropTypes from 'prop-types'
 
 class Book extends Component {
   constructor(props) {
@@ -12,13 +12,13 @@ class Book extends Component {
     // this.onChange = this.onChange.bind(this)
 
     this.state = {
-      book: BookStore.getBook(this.props.id)
+      book: props.book
     }
   }
-  static propTypes = {
+  /* static propTypes = {
     id: PropTypes.string.isRequired
   }
-  /* 组件挂载时，更新状态
+   组件挂载时，更新状态
   componentWillMount() {
     this.setState({
       book: this.props.book
@@ -29,11 +29,8 @@ class Book extends Component {
     console.log('Book changeBookShelf')
     Actions.change(this.state.book, shelf)
   } */
-  /* 传递状态给父组件 
-  handUpBook = (book) => {
-    console.log('Book handUpBook')
-  }
-  componentDidMount() {
+  // 传递状态给父组件 
+  /*componentDidMount() {
     BookStore.addChangeListener(this.onChange)
   }
   compoenentWillUnmount() {
@@ -44,6 +41,9 @@ class Book extends Component {
     const newBook = BookStore.getBook(this.props.id)
     this.setState({book: newBook})
   }*/
+  handUpBook = (shelf) => {
+    Actions.change(this.state.book, shelf)
+  }
 
   render() {
 
@@ -61,7 +61,7 @@ class Book extends Component {
               backgroundImage: book.imageLinks? (book.imageLinks.thumbnail? `url(${book.imageLinks.thumbnail})` : 'url("")') : 'url("")' }}>
             </div>
           </NavLink>}                                       
-          <SelectShelf shelf={book.shelf} id={book.id}/>
+          <SelectShelf shelf={book.shelf} id={book.id} handUpShelf={this.handUpBook}/>
         </div>
         <div className="book-title">{book.title}</div>
         <div className="book-authors">{book.authors? (book.authors.join(', ')): ''}</div>

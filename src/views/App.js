@@ -4,6 +4,7 @@ import './App.css'
 import Shelf from './Shelf'
 import SearchBook from './SearchBook'
 import BookDetail from './BookDetail'
+import * as Actions from '../Actions'
 
 
 
@@ -21,6 +22,9 @@ class BooksApp extends React.Component {
         getBooks: [],
         localBooks: []
     }*/
+    componentDidMount() {
+        Actions.initialData()
+    }
     
     /* 路由注册 */
     render() {

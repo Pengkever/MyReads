@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import BookStore from '../stores/BookStore'
-import * as Actions from '../Actions'
+// import * as Actions from '../Actions'
 
 class SelectShelf extends Component {
 
@@ -29,23 +29,24 @@ class SelectShelf extends Component {
             currentShelf: this.props.shelf
         }
 
-        this.onChange = this.onChange.bind(this)
+        this.handUpShelf = this.handUpShelf.bind(this)
     }
 
-    onChange(shelf) {
-        Actions.change(this.props.id, shelf)
+    handUpShelf(shelf) {
+        if (this.props.handUpShelf) {
+            this.props.handUpShelf(shelf)
+        }
     }
 
     render () {
         
-        const { options } = this.state        
-        const currentShelf = this.state.currentShelf
+        const { options, currentShelf } = this.state
 
         return (
             <div className="book-shelf-changer">            
-                <select value={currentShelf} onChange={(e) => this.onChange(e.target.value)}>
+                <select value={currentShelf} onChange={(e) => this.handUpShelf(e.target.value)}>
                     <option disabled>move to...</option>
-                    {options.map((option) => (<option value={option} key={option}>{option}</option>))}                
+                    {options.map((option) => (<option value={option} key={option}>{option}</option>))}
                 </select>
             </div>
         )

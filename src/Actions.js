@@ -1,11 +1,23 @@
 import * as ActionTypes from './ActionTypes'
 import AppDispatcher from './AppDispatcher'
 
-export const change = (bookId, shelf) => {
-    console.log('Action change')
+export const change = (book, shelf) => {
     AppDispatcher.dispatch({
         type: ActionTypes.CHANGE_SHELF,
-        bookId: bookId,
+        book: book,
         shelf: shelf
+    })
+}
+
+export const search = (query) => {
+    AppDispatcher.dispatch({
+        type: ActionTypes.SEARCH,
+        query: query
+    })
+}
+
+export const initialData = () => {
+    AppDispatcher.dispatch({
+        type: ActionTypes.INIT
     })
 }

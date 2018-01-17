@@ -2,28 +2,68 @@ import React, { Component } from 'react'
 import NavLink from './NavLink'
 
 import Book from './Book'
-// import { search } from '../BooksAPI'
+import { search } from '../BooksAPI'
 import BookStore from '../stores/BookStore'
 
 class SearchBook extends Component {
     constructor(props) {
         super(props)
 
-        this.onChange = this.onChange.bind(this)
+        /*this.onChange = this.onChange.bind(this)*/
+        this.searchBook = this.searchBook.bind(this)
+        this.checkBooks = this.checkBooks.bind(this)
 
         this.state = {
             books: null
         }
     }
-    searchBook = (query) => {
-        query = query.trim()
-        BookStore.searchBook(query)
-        .then(books => this.setState({books: books}))
-        .catch(e => this.setState({books: null}))       
+    searchBook = (event) => {
+        if (event.key === 'Enter') {
+            let query = event.target.value
+            query = query.trim()
+            search(query)
+            .then(books => {
+                books = this.checkBooks(books)
+                this.setState({books: books})
+            }).catch(e => this.setState({books: null}))            
+        }
     }
-    onChange() {
+    checkBooks = (books) => {
+        let localBooks = []
+        for (const shelfCaption of BookStore.getShelfNameList()) {
+            localBooks = localBooks.concat(BookStore.getBooks(shelfCaption))
+        }
+        /*for (const localBook of localBooks) {
+            for (const book of books) {
+                if (localBook.id === book.id) {
+                    book.shelf = localBook.shelf
+                }
+            }
+        }*/
+        books.forEach((book, index) => {
+            localBooks.forEach((localBook, localIndex) => {
+                if (book.id === localBook.id) {
+                    book.shelf = localBook.shelf
+                    // 基于不重复原则，此书匹配中后，可以除去，减少下一次循环次数
+                    localBooks.splice(localIndex, 1)
+                }
+            })
+        })
+
+        return books
+    }
+    /*onChange(query) {
+        if (!query) return
         console.log('onChange')
+        query = query.trim()
+        Actions.search(query)
     }
+    componentDidMount() {
+        BookStore.addChangeListener(this.onChange)
+    }
+    componentWillUnmount() {
+        BookStore.removeChangeListener(this.onChange)
+    }*/
     
     render() {
         
@@ -47,7 +87,7 @@ class SearchBook extends Component {
                         <input
                         type="text"
                         placeholder="Search by title or author"
-                        onChange={(event) => this.searchBook(event.target.value)}
+                        onKeyPress={(event) => this.searchBook(event)}
                         />
 
                     </div>
@@ -57,7 +97,7 @@ class SearchBook extends Component {
                         <ol className="books-grid">
                             {books.map((book) => (
                                 <li key={book.id}>
-                                    <Book id={book.id}/>
+                                    <Book book={book}/>
                                 </li>
                             ))}                        
                         </ol>

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import * as BooksAPI from '../BooksAPI'
 import NavLink from './NavLink'
 import SelectShelf from './SelectShelf'
+import * as Actions from '../Actions'
 
 class BookDetail extends Component {
     state = {
@@ -19,8 +20,8 @@ class BookDetail extends Component {
         }))
     }
     /* 书架信息更新后，上传服务器 */
-    getShelf = (shelf) => {
-        BooksAPI.update(this.state.book, shelf)
+    handUpShelf = (shelf) => {
+        Actions.change(this.state.book, shelf)
     }
 
     render() {
@@ -32,7 +33,7 @@ class BookDetail extends Component {
                 {book?(
                     <div className="book-subject">
                         <div className="book-content">
-                            <SelectShelf shelf={book.shelf} getShelf={this.getShelf} selectInfoState={book.selectInfoState} updateValue={this.updateValue}/>
+                            <SelectShelf shelf={book.shelf} handUpShelf={this.handUpShelf}/>
                             <div className="book-cover" 
                                  style={!book.style? ({
                                     width: 128,
