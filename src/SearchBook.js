@@ -17,9 +17,12 @@ class SearchBook extends Component {
         this.setState({localBooks: nextProps.books})
     }
     /* 输入内容改变，从服务器搜索图书 */
-    updateQuery = (query) => {
-        query = query.trim()
-        query? this.searchBook(query) : this.setState({books: []})
+    updateQuery = (event) => {
+        if (event.key === 'Enter') {
+            let query = event.target.value
+            query = query.trim()
+            query? this.searchBook(query) : this.setState({books: []})
+        }
     }
 
     searchBook = (query) => {
@@ -74,7 +77,7 @@ class SearchBook extends Component {
                         <input
                         type="text"
                         placeholder="Search by title or author"
-                        onChange={(event) => this.updateQuery(event.target.value)}
+                        onKeyPress={(event) => this.updateQuery(event)}
                         />
 
                     </div>
